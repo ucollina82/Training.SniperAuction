@@ -23,7 +23,8 @@ namespace Training.SniperAuction.Presentation
                         .GetAwaiter()
                         .GetResult();
                 });
-            });          
+            });    
+            
         }
     }
 }
