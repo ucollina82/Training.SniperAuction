@@ -3,17 +3,33 @@
     <CodeSnippet Format="1.0.0">
         <Header>
             <Title>First test for the walking skeleton</Title>
-            <Shortcut>1-Test-WS</Shortcut>
+            <Shortcut>FirstTestWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[[Test]
+                <![CDATA[private FakeAuctionServer auction = null;
+        private ApplicationRunner application = new ApplicationRunner();
+
+        [SetUp]
+        public async Task Setup()
+        {
+            auction = await FakeAuctionServer.Create("item-1234");
+        }
+
+        [Test]
         public async Task sniperJoinsAuctionUntilAuctionCloses()
         {
             auction.StartSellingItem();
             application.StartBiddingIn(auction);
             await auction.AnnounceClosed();
             application.ShowsSniperHasLostAuction();
+        }
+
+        [TearDown]
+        public async Task TearDown()
+        {
+            await auction?.Stop();
+            application?.Dispose();
         }]]>
             </Code>
         </Snippet>
