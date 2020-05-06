@@ -1,19 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Radical.Windows.ComponentModel;
-using System;
-using System.Windows;
-
-namespace Training.SniperAuction.Presentation
-{
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
-    {
-        public static IViewResolver ViewResolver = null;
-
-        public App()
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Sniper Application App Main for walking skeleton</Title>
+            <Shortcut>SniperApplicationAppMainWS</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[public App()
         {
             IServiceProvider container = null;
             
@@ -25,6 +19,9 @@ namespace Training.SniperAuction.Presentation
                     serviceProvider.GetRequiredService<ILogger<App>>().LogDebug("Starting App");
                 })
             );
-        }
-    }
-}
+        }]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
+

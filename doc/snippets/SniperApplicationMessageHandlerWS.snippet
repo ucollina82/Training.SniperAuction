@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Sniper Application MessageHandler Ws for the walking skeleton</Title>
+            <Shortcut>SniperApplicationMessageHandlerWs</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[public class SniperMessageHandler : IHandleMessages<Joined>, IHandleMessages<Close>
+    {
+        private readonly IMessageBroker messageBroker;
+        private readonly ILogger<SniperMessageHandler> logger;
+
+        public SniperMessageHandler(IMessageBroker messageBroker, ILogger<SniperMessageHandler> logger)
+        {
+            this.messageBroker = messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
+            this.logger = logger;
+        }
+
+        public async Task Handle(Joined message, IMessageHandlerContext context)
+        {
+            logger.LogDebug("Sniper joined message received");
+            this.messageBroker.Dispatch(this, new JoinCompleted());
+            await Task.FromResult(false);
+        }
+
+        public async Task Handle(Close message, IMessageHandlerContext context)
+        {
+            logger.LogDebug("Sniper close message received");
+            this.messageBroker.Dispatch(this, new AuctionClosed());
+            await Task.FromResult(false);
+        }
+    }]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
+

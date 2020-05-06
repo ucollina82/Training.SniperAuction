@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>First test for the walking skeleton</Title>
+            <Shortcut>1-Test-WS</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[[Test]
+        public async Task sniperJoinsAuctionUntilAuctionCloses()
+        {
+            auction.StartSellingItem();
+            application.StartBiddingIn(auction);
+            await auction.AnnounceClosed();
+            application.ShowsSniperHasLostAuction();
+        }]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

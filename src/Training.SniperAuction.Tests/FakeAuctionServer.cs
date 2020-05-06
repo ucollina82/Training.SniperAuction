@@ -1,34 +1,33 @@
-﻿using NServiceBus;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NServiceBus;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Training.SniperAuction.Communication;
 using Training.SniperAuction.Messages;
 
 namespace Training.SniperAuction.Tests
 {
     internal class FakeAuctionServer : IHandleMessages<Join>
     {
-        private IEndpointInstance endpointInstance;
         private string firstItemId;
         private IDictionary<string, double> currentSellingItems = new Dictionary<string, double>();
         private IDictionary<string, IList<string>> currentClientForItems = new Dictionary<string, IList<string>>();
+        private NserviceBusEndpoint nserviceBusEndpoint;
 
         private FakeAuctionServer(string firstItemId)
         {
             this.firstItemId = firstItemId;
         }
         
-        public FakeAuctionServer() { 
-        
-        }
+        public FakeAuctionServer() { }
         
         public static async Task<FakeAuctionServer> Create(string firstItemId) {
-            Console.Title = "AuctionServer";
 
-            var endpointConfiguration = new EndpointConfiguration("AuctionServer");
-            endpointConfiguration.UseTransport<LearningTransport>();
+            Console.Title = "AuctionServer";
             var server = new FakeAuctionServer(firstItemId);
-            server.endpointInstance = await NServiceBus.Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
+            server.nserviceBusEndpoint = new NserviceBusEndpoint("AuctionServer", new ServiceCollection());
+            await server.nserviceBusEndpoint.Start();
             return server;
         }
 
@@ -44,12 +43,12 @@ namespace Training.SniperAuction.Tests
 
         internal async Task AnnounceClosed()
         {
-            await endpointInstance.Publish(new Close());
+            await nserviceBusEndpoint.Publish(new Close()); 
         }
 
         internal async Task Stop()
         {
-            await endpointInstance.Stop().ConfigureAwait(false);
+            await nserviceBusEndpoint.Stop();
         }
 
         public async Task Handle(Join message, IMessageHandlerContext context)
@@ -59,7 +58,9 @@ namespace Training.SniperAuction.Tests
                 await Task.Run(() => currentClientForItems.Add(message.ItemId, new List<string>(new[] { context.ReplyToAddress })));
            
             await Task.Run(() => currentClientForItems[message.ItemId].Add(context.ReplyToAddress));
+
             await context.Reply(new Joined());
+            
             Console.WriteLine("Reply Joined " + context.ReplyToAddress);
         }
     }

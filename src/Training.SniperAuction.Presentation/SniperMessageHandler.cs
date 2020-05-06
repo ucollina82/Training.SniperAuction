@@ -1,35 +1,35 @@
-﻿using NServiceBus;
+﻿using Microsoft.Extensions.Logging;
+using NServiceBus;
 using Radical.ComponentModel.Messaging;
-using Radical.Messaging;
 using System;
 using System.Threading.Tasks;
 using Training.SniperAuction.Messages;
-using Training.SniperAuction.Presentation.Presentation;
+using Training.SniperAuction.Presentation.Messages;
 
 namespace Training.SniperAuction.Presentation
 {
-    public class MessageHandler : IHandleMessages<Joined>, IHandleMessages<Close>
+    public class SniperMessageHandler : IHandleMessages<Joined>, IHandleMessages<Close>
     {
         private readonly IMessageBroker messageBroker;
+        private readonly ILogger<SniperMessageHandler> logger;
 
-        public MessageHandler(IMessageBroker messageBroker)
+        public SniperMessageHandler(IMessageBroker messageBroker, ILogger<SniperMessageHandler> logger)
         {
             this.messageBroker = messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
+            this.logger = logger;
         }
 
         public async Task Handle(Joined message, IMessageHandlerContext context)
         {
-            Console.WriteLine("Handle Joined, dispatch JoinCompleted");
+            logger.LogDebug("Sniper joined message received");
             this.messageBroker.Dispatch(this, new JoinCompleted());
-            Console.WriteLine("Handle Joined, dispatched JoinCompleted");
             await Task.FromResult(false);
         }
 
         public async Task Handle(Close message, IMessageHandlerContext context)
         {
-            Console.WriteLine("Handle Close, dispatch AuctionClosed");
+            logger.LogDebug("Sniper close message received");
             this.messageBroker.Dispatch(this, new AuctionClosed());
-            Console.WriteLine("Handle Close, dispatched AuctionClosed");
             await Task.FromResult(false);
         }
     }

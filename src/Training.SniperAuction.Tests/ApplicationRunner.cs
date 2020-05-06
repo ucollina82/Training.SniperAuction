@@ -34,8 +34,8 @@ namespace Training.SniperAuction.Tests
             testApplicationThread.Start();
             testApplicationThread.Join(5000);
 
-            driver = new AuctionSniperDriver(1000);
-            driver.ShowsSniperStatus(STATUS_JOINING);
+            driver = new AuctionSniperDriver();
+            driver.ShowsSniperStatus(STATUS_JOINED);
 
             Console.WriteLine("Esco dal metodo StartBiddingIn");
         }

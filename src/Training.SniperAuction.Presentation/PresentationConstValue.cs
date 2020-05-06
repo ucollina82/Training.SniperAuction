@@ -2,7 +2,7 @@
 {
     public static class PresentationConstValue
     {
-        public const string STATUS_JOINING = "Joining";
+        public const string STATUS_JOINED = "Joining";
         public const string STATUS_LOST = "Lost";
     }
 }

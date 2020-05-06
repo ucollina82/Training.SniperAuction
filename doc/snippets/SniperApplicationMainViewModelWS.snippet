@@ -1,15 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
-using NServiceBus;
-using Radical.ComponentModel.Messaging;
-using Radical.Windows.ComponentModel;
-using Radical.Windows.Presentation;
-using System;
-using Training.SniperAuction.Messages;
-using Training.SniperAuction.Presentation.Messages;
-
-namespace Training.SniperAuction.Presentation.Presentation
-{
-    public class MainViewModel : AbstractViewModel, IExpectViewLoadedCallback
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Sniper Application Main Ws for the walking skeleton</Title>
+            <Shortcut>SniperApplicationMainWs</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[public class MainViewModel : AbstractViewModel, IExpectViewLoadedCallback
     {
         readonly IMessageBroker broker;
         private readonly Lazy<IMessageSession> endpointInstance;
@@ -34,12 +32,13 @@ namespace Training.SniperAuction.Presentation.Presentation
 
         public void OnJoinCompleted(object sender, JoinCompleted message)
         {
-            this.Status = PresentationConstValue.STATUS_JOINED;
+            this.Status = PresentationConstValue.STATUS_JOINING;
         }
 
         public void OnViewLoaded()
         {
             this.logger.LogDebug("MainViewModel OnViewLoaded");
+            this.logger.LogDebug(endpointInstance.Value.ToString());
             var sendTask = endpointInstance.Value.Send("AuctionServer", new Join("item-1234"));
             this.logger.LogDebug("Join sent");
             sendTask.GetAwaiter().GetResult();
@@ -49,5 +48,9 @@ namespace Training.SniperAuction.Presentation.Presentation
             get { return this.GetPropertyValue(() => this.Status); }
             set { this.SetPropertyValue(() => this.Status, value); }
         }
-    }
-}
+    }]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
+
