@@ -10,6 +10,8 @@ namespace Training.SniperAuction.Tests
         {
         }
 
+        
+
         [TearDown]
         private void cleanup()
         {
