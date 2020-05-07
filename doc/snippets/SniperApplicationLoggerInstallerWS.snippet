@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Sniper Application LoggerInstaller for the walking skeleton</Title>
+            <Shortcut>SniperApplicationLoggerInstallerWs</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[public class LoggerInstaller : IDependenciesInstaller
+    {
+        public void Install(BootstrapConventions conventions, IServiceCollection services, IEnumerable<Type> assemblyScanningResults)
+        {
+            Log.Logger = new LoggerConfiguration()
+                        .MinimumLevel.Debug()
+                        .Enrich.FromLogContext()
+                        .WriteTo
+                        .Console().CreateLogger();
+
+            services.AddLogging(e => e.AddSerilog());
+        }
+    }]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
+
