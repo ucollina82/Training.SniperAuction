@@ -7,13 +7,14 @@
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[private FakeAuctionServer auction = null;
-        private ApplicationRunner application = new ApplicationRunner();
+                <![CDATA[private FakeAuctionServer auction;
+        private ApplicationRunner application;
 
         [SetUp]
         public async Task Setup()
         {
             auction = await FakeAuctionServer.Create("item-1234");
+            application =  new ApplicationRunner();
         }
 
         [Test]

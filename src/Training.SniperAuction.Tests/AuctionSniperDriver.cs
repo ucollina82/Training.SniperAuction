@@ -11,7 +11,8 @@ namespace Training.SniperAuction.Tests
             App.Current.Dispatcher.Invoke(() =>
             {
                 var mainView = App.ViewResolver.GetView<Presentation.Presentation.MainView>();
-                ((TextBlock)mainView.FindName("Status")).Text.Should().Be(status);
+                string text = ((TextBlock)mainView.FindName("Status")).Text;
+                text.Should().Be(status);
             });
         }
 

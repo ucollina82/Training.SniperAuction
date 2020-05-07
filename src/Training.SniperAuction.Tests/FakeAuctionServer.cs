@@ -26,8 +26,9 @@ namespace Training.SniperAuction.Tests
 
             Console.Title = "AuctionServer";
             var server = new FakeAuctionServer(firstItemId);
-            server.nserviceBusEndpoint = new NserviceBusEndpoint("AuctionServer", new ServiceCollection());
-            await server.nserviceBusEndpoint.Start();
+            ServiceCollection services = new ServiceCollection();
+            server.nserviceBusEndpoint = new NserviceBusEndpoint("AuctionServer", services);
+            await server.nserviceBusEndpoint.StartAsync(services.BuildServiceProvider());
             return server;
         }
 
@@ -43,12 +44,12 @@ namespace Training.SniperAuction.Tests
 
         internal async Task AnnounceClosed()
         {
-            await nserviceBusEndpoint.Publish(new Close()); 
+            await nserviceBusEndpoint.PublishAsync(new Close()); 
         }
 
         internal async Task Stop()
         {
-            await nserviceBusEndpoint.Stop();
+            await nserviceBusEndpoint.StopAsync();
         }
 
         public async Task Handle(Join message, IMessageHandlerContext context)

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using Training.SniperAuction.Presentation;
 using static Training.SniperAuction.Presentation.Presentation.PresentationConstValue;
 
@@ -9,19 +7,16 @@ namespace Training.SniperAuction.Tests
 {
     internal class ApplicationRunner : IDisposable
     {
-        public const String SNIPER_ID = "sniper";
-        public const String SNIPER_PASSWORD = "sniper";
         private AuctionSniperDriver driver;
         Thread testApplicationThread = null;
 
-        internal void StartBiddingIn(FakeAuctionServer auction)
+        internal void StartBiddingIn()
         {
-            Thread testApplicationThread = new Thread(
+            testApplicationThread = new Thread(
                 new ThreadStart(() =>
                 {
                     try
-                    {
-                        Console.WriteLine("Parte thread dell'applicazione");
+                    {                        
                         App.Main();
                     }
                     catch (Exception ex)
@@ -36,13 +31,11 @@ namespace Training.SniperAuction.Tests
 
             driver = new AuctionSniperDriver();
             driver.ShowsSniperStatus(STATUS_JOINED);
-
-            Console.WriteLine("Esco dal metodo StartBiddingIn");
         }
         
         internal void ShowsSniperHasLostAuction()
         {
-            Thread.Sleep(2000);
+            testApplicationThread.Join(2000);
             driver.ShowsSniperStatus(STATUS_LOST);
         }
 
@@ -50,7 +43,7 @@ namespace Training.SniperAuction.Tests
         public void Dispose()
         {
             driver?.Dispose();
-            testApplicationThread?.Abort();
+            testApplicationThread?.Interrupt();
         }
     }
 }

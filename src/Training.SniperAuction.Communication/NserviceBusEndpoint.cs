@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
+using System;
 using System.Threading.Tasks;
 
 namespace Training.SniperAuction.Communication
@@ -7,48 +8,61 @@ namespace Training.SniperAuction.Communication
     public class NserviceBusEndpoint
     {
         private EndpointConfiguration endpointConfiguration;
-        private IServiceCollection services;
         private IStartableEndpointWithExternallyManagedContainer startableEndPoint;
         private IEndpointInstance endPointInstance;
-
+        
         public NserviceBusEndpoint(string endPointName, IServiceCollection services)
         {
             endpointConfiguration = new EndpointConfiguration(endPointName);
             endpointConfiguration.UseTransport<LearningTransport>();
-            this.services = services;
             startableEndPoint = EndpointWithExternallyManagedServiceProvider
                .Create(endpointConfiguration, services);
         }
 
-        public void StartLazy()
+        public async Task<IEndpointInstance> StartAsync(IServiceProvider serviceProvider)
         {
-            services.AddSingleton(serviceProvider =>
-            {
-                return new System.Lazy<IMessageSession>(() =>
-                {
-                    this.endPointInstance = startableEndPoint.Start(serviceProvider)
-                        .ConfigureAwait(false)
-                        .GetAwaiter()
-                        .GetResult();
-
-                    return this.endPointInstance;
-                });
-            });
+            return this.endPointInstance = await startableEndPoint.Start(serviceProvider);
         }
 
-        public async Task Start()
+        public void Start(IServiceProvider serviceProvider)
         {
-            this.endPointInstance = await startableEndPoint.Start(this.services.BuildServiceProvider())
-                       .ConfigureAwait(false);
+            this.endPointInstance = startableEndPoint.Start(serviceProvider)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
         }
 
-        public async Task Publish(IEvent @event) {
+        public async Task PublishAsync(IEvent @event) {
             await this.endPointInstance.Publish(@event);
         }
 
-        public async Task Stop()
+        public async Task SendAsync(string instanceName, ICommand command)
+        {
+            await this.endPointInstance.Send(instanceName, command);
+        }
+
+        public void Send(string instanceName, ICommand command)
+        {
+            this.endPointInstance
+                .Send(instanceName, command)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        public async Task StopAsync()
         {
             await this.endPointInstance.Stop().ConfigureAwait(false);
         }
+
+        public void Stop()
+        {
+            this.endPointInstance
+                .Stop()
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+        }
+
     }
 }

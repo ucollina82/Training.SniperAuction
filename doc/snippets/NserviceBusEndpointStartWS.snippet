@@ -7,10 +7,12 @@
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[public async Task Start()
+                <![CDATA[public void Start(IServiceProvider serviceProvider)
         {
-            this.endPointInstance = await startableEndPoint.Start(this.services.BuildServiceProvider())
-                       .ConfigureAwait(false);
+            this.endPointInstance = startableEndPoint.Start(serviceProvider)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
         }]]>
             </Code>
         </Snippet>
