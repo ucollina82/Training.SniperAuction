@@ -40,13 +40,13 @@ namespace Training.SniperAuction.Presentation.Presentation
         {
             this.logger.LogDebug("MainViewModel OnViewLoaded");
             endpointInstance.Value.Send("AuctionServer", new Join("item-1234"));
-            this.logger.LogDebug("Join sent");            
+            this.logger.LogDebug("Join sent for Sniper");            
         }
 
         public void OnViewClosed()
         {
             this.logger.LogDebug("MainViewModel OnViewClosed");
-            endpointInstance.Value.StopAsync();
+            endpointInstance.Value.Stop();
         }
 
         public string Status {

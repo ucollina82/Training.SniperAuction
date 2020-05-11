@@ -27,7 +27,7 @@ namespace Training.SniperAuction.Tests
             Console.Title = "AuctionServer";
             var server = new FakeAuctionServer(firstItemId);
             ServiceCollection services = new ServiceCollection();
-            server.nserviceBusEndpoint = new NserviceBusEndpoint("AuctionServer", services);
+            server.nserviceBusEndpoint = new NserviceBusEndpoint("AuctionServer-1", services); // TODO 0: rimuovere AuctionServer-1 e rimettere AuctionServer
             await server.nserviceBusEndpoint.StartAsync(services.BuildServiceProvider());
             return server;
         }
@@ -54,15 +54,12 @@ namespace Training.SniperAuction.Tests
 
         public async Task Handle(Join message, IMessageHandlerContext context)
         {
-            Console.WriteLine("Handle Join");
             if (!currentClientForItems.ContainsKey(message.ItemId)) 
                 await Task.Run(() => currentClientForItems.Add(message.ItemId, new List<string>(new[] { context.ReplyToAddress })));
            
             await Task.Run(() => currentClientForItems[message.ItemId].Add(context.ReplyToAddress));
-
-            await context.Reply(new Joined());
             
-            Console.WriteLine("Reply Joined " + context.ReplyToAddress);
+            await context.Reply(new Joined());
         }
     }
 }

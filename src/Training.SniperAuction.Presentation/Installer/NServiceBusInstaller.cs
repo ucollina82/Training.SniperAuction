@@ -2,8 +2,6 @@
 using Radical.Windows.Bootstrap;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Training.SniperAuction.Communication;
 
 namespace Training.SniperAuction.Presentation.Installer
@@ -12,7 +10,7 @@ namespace Training.SniperAuction.Presentation.Installer
     {
         public void Install(BootstrapConventions conventions, IServiceCollection services, IEnumerable<Type> assemblyScanningResults)
         {
-            var endpoint = new NserviceBusEndpoint("sniper-1", services);
+            var endpoint = new NserviceBusEndpoint($"sniper-{Guid.NewGuid()}", services);
 
             services.AddSingleton(serviceProvider => {
                 return new Lazy<NserviceBusEndpoint>(() =>
