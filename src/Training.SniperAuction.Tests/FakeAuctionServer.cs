@@ -27,7 +27,7 @@ namespace Training.SniperAuction.Tests
             Console.Title = "AuctionServer";
             var server = new FakeAuctionServer(firstItemId);
             ServiceCollection services = new ServiceCollection();
-            server.nserviceBusEndpoint = new NserviceBusEndpoint("AuctionServer-1", services); // TODO 0: rimuovere AuctionServer-1 e rimettere AuctionServer
+            server.nserviceBusEndpoint = new NserviceBusEndpoint("AuctionServer-1", services); // TODO 1: rimuovere AuctionServer-1 e rimettere AuctionServer
             await server.nserviceBusEndpoint.StartAsync(services.BuildServiceProvider());
             return server;
         }
