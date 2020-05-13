@@ -27,8 +27,7 @@ namespace Training.SniperAuction.Tests
 
             testApplicationThread.SetApartmentState(ApartmentState.STA);
             testApplicationThread.Start();
-            testApplicationThread.Join(5000);
-
+            testApplicationThread.Join(10000);
             driver = new AuctionSniperDriver();
             driver.ShowsSniperStatus(STATUS_JOINED);
         }
