@@ -54,11 +54,10 @@ namespace Training.SniperAuction.Tests
 
         public async Task Handle(Join message, IMessageHandlerContext context)
         {
-            if (!currentClientForItems.ContainsKey(message.ItemId)) 
-                await Task.Run(() => currentClientForItems.Add(message.ItemId, new List<string>(new[] { context.ReplyToAddress })));
-           
-            await Task.Run(() => currentClientForItems[message.ItemId].Add(context.ReplyToAddress));
-            
+            if (!currentClientForItems.ContainsKey(message.ItemId))
+                currentClientForItems.Add(message.ItemId, new List<string>(new[] { context.ReplyToAddress }));
+
+            currentClientForItems[message.ItemId].Add(context.ReplyToAddress);
             await context.Reply(new Joined());
         }
     }
