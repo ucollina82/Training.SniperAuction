@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Training.SniperAuction.Presentation;
 using static Training.SniperAuction.Presentation.Presentation.PresentationConstValue;
 
@@ -9,9 +10,11 @@ namespace Training.SniperAuction.Tests
     {
         private AuctionSniperDriver driver;
         Thread testApplicationThread = null;
+        readonly AutoResetEvent resetEvent = new AutoResetEvent(false);
 
         internal void StartBiddingIn()
         {
+            Task.Factory.StartNew(() => { });
             testApplicationThread = new Thread(
                 new ThreadStart(() =>
                 {
@@ -27,15 +30,16 @@ namespace Training.SniperAuction.Tests
 
             testApplicationThread.SetApartmentState(ApartmentState.STA);
             testApplicationThread.Start();
-            testApplicationThread.Join(10000);
+            
             driver = new AuctionSniperDriver();
-            driver.ShowsSniperStatus(STATUS_JOINED);
+            driver.ShowsSniperStatus(STATUS_JOINED, resetEvent);
+            resetEvent.WaitOne();
         }
         
         internal void ShowsSniperHasLostAuction()
         {
-            Thread.Sleep(2000);
-            driver.ShowsSniperStatus(STATUS_LOST); 
+            driver.ShowsSniperStatus(STATUS_LOST, resetEvent);
+            resetEvent.WaitOne();
         }
 
 

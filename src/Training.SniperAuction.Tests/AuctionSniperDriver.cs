@@ -1,4 +1,7 @@
 ﻿using FluentAssertions;
+using Polly;
+using System;
+using System.Threading;
 using System.Windows.Controls;
 using Training.SniperAuction.Presentation;
 
@@ -6,14 +9,23 @@ namespace Training.SniperAuction.Tests
 {
     public class AuctionSniperDriver
     {
-        internal void ShowsSniperStatus(string status)
+        internal void ShowsSniperStatus(string status, AutoResetEvent resetEvent)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            var retryActionPolicy = Policy
+                    .Handle<Exception>()
+                    .WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+
+            retryActionPolicy.Execute(() =>
             {
-                var mainView = App.ViewResolver.GetView<Presentation.Presentation.MainView>();
-                string text = ((TextBlock)mainView.FindName("Status")).Text;
-                text.Should().Be(status);
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var mainView = App.ViewResolver.GetView<Presentation.Presentation.MainView>();
+                    string text = ((TextBlock)mainView.FindName("Status")).Text;
+                    text.Should().Be(status);
+
+                });
             });
+            resetEvent.Set();
         }
 
         internal void Dispose()

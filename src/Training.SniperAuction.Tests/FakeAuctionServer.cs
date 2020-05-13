@@ -23,7 +23,6 @@ namespace Training.SniperAuction.Tests
         public FakeAuctionServer() { }
         
         public static async Task<FakeAuctionServer> Create(string firstItemId) {
-
             Console.Title = "AuctionServer";
             var server = new FakeAuctionServer(firstItemId);
             ServiceCollection services = new ServiceCollection();
