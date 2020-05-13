@@ -35,7 +35,7 @@ namespace Training.SniperAuction.Tests
         
         internal void ShowsSniperHasLostAuction()
         {
-            testApplicationThread.Join(2000);
+            Thread.Sleep(2000);
             driver.ShowsSniperStatus(STATUS_LOST);
         }
 
