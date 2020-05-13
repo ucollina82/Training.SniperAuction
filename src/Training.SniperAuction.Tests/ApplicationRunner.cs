@@ -12,10 +12,10 @@ namespace Training.SniperAuction.Tests
     {
         private AuctionSniperDriver driver;
         IList<Thread> currentThreads = new List<Thread>();
+        Action StartUIAction = () => App.Main();
 
         internal void StartBiddingIn()
         {
-            Action StartUIAction = () => App.Main();
             ExecuteInSTAThread(StartUIAction);
             driver = new AuctionSniperDriver();
             ExecuteWithRetry(() => driver.ShowsSniperStatus(STATUS_JOINED));
