@@ -2,14 +2,13 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
     <CodeSnippet Format="1.0.0">
         <Header>
-            <Title>Fake Auction Server StartSellingItem for walking skeleton</Title>
-            <Shortcut>FakeAuctionServerStartSellingItemWS</Shortcut>
+            <Title>NserviceBusEndpoint publish for the walking skeleton</Title>
+            <Shortcut>One-NserviceBusEndpointPublishWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[ internal void StartSellingItem()
-        {
-            currentSellingItems.Add(firstItemId, 0.0);
+                <![CDATA[public async Task PublishAsync(IEvent @event) {
+            await this.endPointInstance.Publish(@event);
         }]]>
             </Code>
         </Snippet>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>UIExtensionMethods FindElement for the walking skeleton</Title>
+            <Shortcut>One-UIExtensionMethodsFindElementWS</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[public static class UIExtensionMethods
+{
+    public static T FindElement<T>(this FrameworkElement parentElement, string elementName) {
+        return (T)parentElement.FindName(elementName);
+    }
+}]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

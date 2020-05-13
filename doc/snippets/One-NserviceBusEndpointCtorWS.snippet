@@ -3,15 +3,18 @@
     <CodeSnippet Format="1.0.0">
         <Header>
             <Title>NserviceBusEndpoint ctor for the walking skeleton</Title>
-            <Shortcut>NserviceBusEndpointCtorWS</Shortcut>
+            <Shortcut>One-NserviceBusEndpointCtorWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[public NserviceBusEndpoint(string endPointName, IServiceCollection services)
+                <![CDATA[private EndpointConfiguration endpointConfiguration;
+        private IStartableEndpointWithExternallyManagedContainer startableEndPoint;
+        private IEndpointInstance endPointInstance;
+        
+        public NserviceBusEndpoint(string endPointName, IServiceCollection services)
         {
             endpointConfiguration = new EndpointConfiguration(endPointName);
             endpointConfiguration.UseTransport<LearningTransport>();
-            this.services = services;
             startableEndPoint = EndpointWithExternallyManagedServiceProvider
                .Create(endpointConfiguration, services);
         }]]>

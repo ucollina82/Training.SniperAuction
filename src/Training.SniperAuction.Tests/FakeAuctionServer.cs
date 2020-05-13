@@ -48,7 +48,7 @@ namespace Training.SniperAuction.Tests
 
         internal async Task Stop()
         {
-            await nserviceBusEndpoint.StopAsync();
+            await nserviceBusEndpoint.StopAsync(); 
         }
 
         public async Task Handle(Join message, IMessageHandlerContext context)

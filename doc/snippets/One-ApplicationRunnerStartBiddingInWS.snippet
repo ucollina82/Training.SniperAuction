@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Application Runner Start Bidding In for the walking skeleton</Title>
+            <Shortcut>One-ApplicationRunnerStartBiddingInWs</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[private AuctionSniperDriver driver;
+        IList<Thread> currentThreads = new List<Thread>();
+        Action StartUIAction = App.Main;
+
+        internal void StartBiddingIn()
+        {
+            ExecuteInSTAThread(StartUIAction);
+            driver = new AuctionSniperDriver();
+            driver.ShowsSniperStatus(STATUS_JOINED);
+        }
+        
+        private void ExecuteInSTAThread(Action action) {
+
+            var staThread = new Thread(new ThreadStart(action));
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            currentThreads.Add(staThread); 
+        }]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

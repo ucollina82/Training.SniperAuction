@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Polly;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,45 +11,26 @@ namespace Training.SniperAuction.Tests
     {
         private AuctionSniperDriver driver;
         IList<Thread> currentThreads = new List<Thread>();
-        Action StartUIAction = () => App.Main();
+        Action StartUIAction = App.Main;
 
         internal void StartBiddingIn()
         {
             ExecuteInSTAThread(StartUIAction);
             driver = new AuctionSniperDriver();
-            ExecuteWithRetry(() => driver.ShowsSniperStatus(STATUS_JOINED));
+            driver.ShowsSniperStatus(STATUS_JOINED);
         }
         
-        internal void ShowsSniperHasLostAuction()
-        {
-            ExecuteWithRetry(() => driver.ShowsSniperStatus(STATUS_LOST));
-        }
-
         private void ExecuteInSTAThread(Action action) {
 
-            var staThread = new Thread(
-               new ThreadStart(() =>
-               {
-                   try
-                   {
-                       action();
-                   }
-                   catch (Exception ex)
-                   {
-                       Assert.AreEqual(0, 1, ex.ToString());
-                   }
-               }));
+            var staThread = new Thread(new ThreadStart(action));
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             currentThreads.Add(staThread); 
         }
 
-        private void ExecuteWithRetry(Action action) {
-            var retryActionPolicy = Policy
-                   .Handle<Exception>()
-                   .WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
-            retryActionPolicy.Execute(() => action());
+        internal void ShowsSniperHasLostAuction()
+        {
+            driver.ShowsSniperStatus(STATUS_LOST);
         }
 
         public void Dispose()

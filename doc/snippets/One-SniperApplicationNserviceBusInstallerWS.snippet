@@ -3,7 +3,7 @@
     <CodeSnippet Format="1.0.0">
         <Header>
             <Title>Sniper Application Nservicebus Installer for the walking skeleton</Title>
-            <Shortcut>SniperApplicationNserviceBusInstallerWS</Shortcut>
+            <Shortcut>One-SniperApplicationNserviceBusInstallerWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
@@ -11,8 +11,15 @@
     {
         public void Install(BootstrapConventions conventions, IServiceCollection services, IEnumerable<Type> assemblyScanningResults)
         {
-            var endpoint = new NserviceBusEndpoint("sniper-1", services);
-            endpoint.StartLazy();
+            var endpoint = new NserviceBusEndpoint($"sniper-{Guid.NewGuid()}", services);
+
+            services.AddSingleton(serviceProvider => {
+                return new Lazy<NserviceBusEndpoint>(() =>
+                {
+                    endpoint.Start(serviceProvider);
+                    return endpoint;
+                });
+            });
         }
     }]]>
             </Code>
