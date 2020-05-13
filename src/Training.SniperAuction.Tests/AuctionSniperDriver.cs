@@ -1,31 +1,26 @@
 ﻿using FluentAssertions;
-using Polly;
 using System;
-using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using Training.SniperAuction.Presentation;
+using Training.SniperAuction.Presentation.Presentation;
 
 namespace Training.SniperAuction.Tests
 {
     public class AuctionSniperDriver
     {
-        internal void ShowsSniperStatus(string status, AutoResetEvent resetEvent)
+        internal void ShowsSniperStatus(string status)
         {
-            var retryActionPolicy = Policy
-                    .Handle<Exception>()
-                    .WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
-            retryActionPolicy.Execute(() =>
+            RunOnUIThread(() =>
             {
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    var mainView = App.ViewResolver.GetView<Presentation.Presentation.MainView>();
-                    string text = ((TextBlock)mainView.FindName("Status")).Text;
-                    text.Should().Be(status);
-
-                });
+                string text = Application.Current.MainWindow.FindElement<TextBlock>(PresentationConstValue.STATUS_LABEL_NAME).Text;
+                text.Should().Be(status);
             });
-            resetEvent.Set();
+        }
+
+        private void RunOnUIThread(Action action)
+        {
+            App.Current.Dispatcher.Invoke(() => action());
         }
 
         internal void Dispose()
