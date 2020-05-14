@@ -2,14 +2,14 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
     <CodeSnippet Format="1.0.0">
         <Header>
-            <Title>Fake Auction Server AnnounceClosed for walking skeleton</Title>
-            <Shortcut>One-FakeAuctionServerAnnounceClosedWS</Shortcut>
+            <Title>Fake auction server ctor for the walking skeleton</Title>
+            <Shortcut>OneFakeAuctionServerCtorWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[internal async Task AnnounceClosed()
+                <![CDATA[private FakeAuctionServer(string firstItemId)
         {
-            await nserviceBusEndpoint.PublishAsync(new Close()); 
+            this.firstItemId = firstItemId;
         }]]>
             </Code>
         </Snippet>

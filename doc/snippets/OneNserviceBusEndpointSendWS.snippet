@@ -2,14 +2,15 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
     <CodeSnippet Format="1.0.0">
         <Header>
-            <Title>NserviceBusEndpoint start for the walking skeleton</Title>
-            <Shortcut>One-NserviceBusEndpointStartWS</Shortcut>
+            <Title>NserviceBusEndpoint publish for the walking skeleton</Title>
+            <Shortcut>OneNserviceBusEndpointPublishWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[ public void Start(IServiceProvider serviceProvider)
+                <![CDATA[public void Send(string instanceName, ICommand command)
         {
-            this.endPointInstance = startableEndPoint.Start(serviceProvider)
+            this.endPointInstance
+                .Send(instanceName, command)
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
