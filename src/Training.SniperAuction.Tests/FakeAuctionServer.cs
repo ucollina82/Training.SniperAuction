@@ -23,7 +23,6 @@ namespace Training.SniperAuction.Tests
         public FakeAuctionServer() { }
         
         public static async Task<FakeAuctionServer> Create(string firstItemId) {
-
             Console.Title = "AuctionServer";
             var server = new FakeAuctionServer(firstItemId);
             ServiceCollection services = new ServiceCollection();
@@ -49,15 +48,15 @@ namespace Training.SniperAuction.Tests
 
         internal async Task Stop()
         {
-            await nserviceBusEndpoint.StopAsync();
+            await nserviceBusEndpoint.StopAsync(); 
         }
 
         public async Task Handle(Join message, IMessageHandlerContext context)
         {
-            if (!currentClientForItems.ContainsKey(message.ItemId))
-                currentClientForItems.Add(message.ItemId, new List<string>(new[] { context.ReplyToAddress }));
+            currentClientForItems.TryAdd(message.ItemId, new List<string>(new[] { context.ReplyToAddress }));
 
             currentClientForItems[message.ItemId].Add(context.ReplyToAddress);
+
             await context.Reply(new Joined());
         }
     }

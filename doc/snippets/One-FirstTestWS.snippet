@@ -3,7 +3,7 @@
     <CodeSnippet Format="1.0.0">
         <Header>
             <Title>First test for the walking skeleton</Title>
-            <Shortcut>FirstTestWS</Shortcut>
+            <Shortcut>One-FirstTestWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
@@ -21,7 +21,7 @@
         public async Task sniperJoinsAuctionUntilAuctionCloses()
         {
             auction.StartSellingItem();
-            application.StartBiddingIn(auction);
+            application.StartBiddingIn();
             await auction.AnnounceClosed();
             application.ShowsSniperHasLostAuction();
         }

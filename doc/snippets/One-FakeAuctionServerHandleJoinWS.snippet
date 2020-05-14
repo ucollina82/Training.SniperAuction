@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>FakeAuctionServer HandleJoin for the walking skeleton</Title>
+            <Shortcut>One-FakeAuctionServerHandleJoinWS</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[public async Task Handle(Join message, IMessageHandlerContext context)
+        {
+            currentClientForItems.TryAdd(message.ItemId, new List<string>(new[] { context.ReplyToAddress }));
+
+            currentClientForItems[message.ItemId].Add(context.ReplyToAddress);
+
+            await context.Reply(new Joined());
+        }]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

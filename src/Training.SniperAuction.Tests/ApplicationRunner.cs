@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using Training.SniperAuction.Presentation;
 using static Training.SniperAuction.Presentation.Presentation.PresentationConstValue;
@@ -8,42 +10,36 @@ namespace Training.SniperAuction.Tests
     internal class ApplicationRunner : IDisposable
     {
         private AuctionSniperDriver driver;
-        Thread testApplicationThread = null;
+        IList<Thread> currentThreads = new List<Thread>();
+        Action StartUIAction = App.Main;
 
         internal void StartBiddingIn()
         {
-            testApplicationThread = new Thread(
-                new ThreadStart(() =>
-                {
-                    try
-                    {                        
-                        App.Main();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("eccezione : " + ex.ToString());
-                    }
-            }));
-
-            testApplicationThread.SetApartmentState(ApartmentState.STA);
-            testApplicationThread.Start();
-            testApplicationThread.Join(5000);
-
+            ExecuteInSTAThread(StartUIAction);
             driver = new AuctionSniperDriver();
             driver.ShowsSniperStatus(STATUS_JOINED);
         }
         
-        internal void ShowsSniperHasLostAuction()
-        {
-            Thread.Sleep(2000);
-            driver.ShowsSniperStatus(STATUS_LOST); 
+        private void ExecuteInSTAThread(Action action) {
+
+            var staThread = new Thread(new ThreadStart(action));
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            currentThreads.Add(staThread); 
         }
 
+        internal void ShowsSniperHasLostAuction()
+        {
+            driver.ShowsSniperStatus(STATUS_LOST);
+        }
 
         public void Dispose()
         {
             driver?.Dispose();
-            testApplicationThread?.Interrupt();
+            foreach (var item in currentThreads)
+            {
+                item.Interrupt();
+            }
         }
     }
 }

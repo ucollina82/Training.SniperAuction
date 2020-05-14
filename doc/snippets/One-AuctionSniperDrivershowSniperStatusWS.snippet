@@ -1,17 +1,13 @@
-﻿using FluentAssertions;
-using Polly;
-using System;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using Training.SniperAuction.Presentation;
-using Training.SniperAuction.Presentation.Presentation;
-
-namespace Training.SniperAuction.Tests
-{
-    public class AuctionSniperDriver
-    {
-        internal void ShowsSniperStatus(string status)
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Auction Sniper Driver show SniperStatus Ws</Title>
+            <Shortcut>One-AuctionSniperDrivershowSniperStatusWS</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[internal void ShowsSniperStatus(string status)
         {
             ExecuteWithRetry(() => RunOnUIThread(() =>
             {
@@ -33,10 +29,8 @@ namespace Training.SniperAuction.Tests
 
             retryActionPolicy.Execute(() => action());
         }
-
-        internal void Dispose()
-        {
-            //throw new NotImplementedException();
-        }
-    }
-}
+]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

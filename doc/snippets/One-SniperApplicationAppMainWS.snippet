@@ -2,16 +2,17 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
     <CodeSnippet Format="1.0.0">
         <Header>
-            <Title>Fake auction server ctor for the walking skeleton</Title>
-            <Shortcut>FakeAuctionServerCtorWS</Shortcut>
+            <Title>Sniper Application App Main for walking skeleton</Title>
+            <Shortcut>One-SniperApplicationAppMainWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[private FakeAuctionServer(string firstItemId)
+                <![CDATA[public App()
         {
-            this.firstItemId = firstItemId;
+           this.AddRadicalApplication<Presentation.MainView>();            
         }]]>
             </Code>
         </Snippet>
     </CodeSnippet>
 </CodeSnippets>
+
