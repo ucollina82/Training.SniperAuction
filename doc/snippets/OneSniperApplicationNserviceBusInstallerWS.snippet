@@ -11,7 +11,7 @@
     {
         public void Install(BootstrapConventions conventions, IServiceCollection services, IEnumerable<Type> assemblyScanningResults)
         {
-            var endpoint = new NserviceBusEndpoint($"sniper-{Guid.NewGuid()}", services);
+            var endpoint = new NserviceBusEndpoint("sniper-" + Guid.NewGuid(), services);
 
             services.AddSingleton(serviceProvider => {
                 return new Lazy<NserviceBusEndpoint>(() =>

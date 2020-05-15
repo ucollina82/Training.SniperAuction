@@ -19,15 +19,15 @@
         {
             this.broker = broker;
             this.broker.Subscribe<JoinCompleted>(this, OnJoinCompleted);
-            this.broker.Subscribe<AuctionClosed>(this, OnAuctionClosed);
+            //this.broker.Subscribe<AuctionClosed>(this, OnAuctionClosed);
             this.endpointInstance = endpointInstance;
             this.logger = logger ?? throw new ArgumentNullException("logger MainViewModel null");
         }
 
-        private void OnAuctionClosed(object arg1, AuctionClosed arg2)
-        {
-            this.Status = PresentationConstValue.STATUS_LOST;
-        }
+        //private void OnAuctionClosed(object arg1, AuctionClosed arg2)
+        //{
+        //    this.Status = PresentationConstValue.STATUS_LOST;
+        //}
 
         public void OnJoinCompleted(object sender, JoinCompleted message)
         {

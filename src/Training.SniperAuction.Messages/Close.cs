@@ -6,4 +6,5 @@ namespace Training.SniperAuction.Messages
     { 
     
     }
+
 }
