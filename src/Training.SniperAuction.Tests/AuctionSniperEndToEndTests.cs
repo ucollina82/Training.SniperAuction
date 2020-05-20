@@ -21,6 +21,7 @@ namespace Training.SniperAuction.Tests
         {
             auction.StartSellingItem();
             application.StartBiddingIn();
+            await auction.HasReceivedJoinRequestFromSniper();
             await auction.AnnounceClosed();
             application.ShowsSniperHasLostAuction();
         }

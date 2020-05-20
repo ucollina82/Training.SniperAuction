@@ -30,6 +30,7 @@ namespace Training.SniperAuction.Communication
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
+
         }
 
         public async Task PublishAsync(IEvent @event) {

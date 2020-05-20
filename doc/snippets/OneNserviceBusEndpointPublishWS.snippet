@@ -2,14 +2,13 @@
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
     <CodeSnippet Format="1.0.0">
         <Header>
-            <Title>Fake auction server ctor for the walking skeleton</Title>
-            <Shortcut>One-FakeAuctionServerCtorWS</Shortcut>
+            <Title>NserviceBusEndpoint publish for the walking skeleton</Title>
+            <Shortcut>OneNserviceBusEndpointPublishWS</Shortcut>
         </Header>
         <Snippet>
             <Code Language="CSharp">
-                <![CDATA[private FakeAuctionServer(string firstItemId)
-        {
-            this.firstItemId = firstItemId;
+                <![CDATA[public async Task PublishAsync(IEvent @event) {
+            await this.endPointInstance.Publish(@event);
         }]]>
             </Code>
         </Snippet>
