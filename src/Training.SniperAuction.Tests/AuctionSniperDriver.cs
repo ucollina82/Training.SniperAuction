@@ -28,7 +28,7 @@ namespace Training.SniperAuction.Tests
         {
             var retryActionPolicy = Policy
                    .Handle<Exception>()
-                   .WaitAndRetry(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+                   .WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
             retryActionPolicy.Execute(() => action());
         }
