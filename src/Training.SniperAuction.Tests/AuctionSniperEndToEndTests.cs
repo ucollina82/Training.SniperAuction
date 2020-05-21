@@ -24,6 +24,7 @@ namespace Training.SniperAuction.Tests
             await auction.HasReceivedJoinRequestFromSniper();
             await auction.AnnounceClosed();
             application.ShowsSniperHasLostAuction();
+
         }
 
         [TearDown]
