@@ -22,11 +22,13 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build the project - Release'
   inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'build'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+    projects: '**/*.csproj'
 
 - task: VSTest@2
   inputs:
@@ -40,15 +42,16 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Publish the project - Release'
   inputs:
     command: 'publish'
     publishWebProjects: false
     projects: '**/*Training.SniperAuction.Presentation.csproj'
-    arguments: '--output $(Build.ArtifactStagingDirectory)'
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Release'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/Release'
     ArtifactName: 'drop'
     publishLocation: 'Container'
     
